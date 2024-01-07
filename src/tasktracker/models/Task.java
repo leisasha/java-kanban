@@ -1,17 +1,16 @@
-package tasktracker;
+package tasktracker.models;
 
 import java.util.Objects;
 
 public class Task {
+    private int id;
     private String name;
     private String description;
-    private int id;
     private Status status = Status.NEW;
 
+    //constructors
     public Task() {
     }
-
-    //constructors
     public Task(String name) {
         this.name = name;
     }
@@ -30,6 +29,13 @@ public class Task {
     }
 
     //get and set
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -42,13 +48,6 @@ public class Task {
     }
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-    protected void setId(int id) {
-        this.id = id;
     }
 
     public Status getStatus() {

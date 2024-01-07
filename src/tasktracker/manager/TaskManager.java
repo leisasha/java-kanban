@@ -1,13 +1,16 @@
-package tasktracker;
+package tasktracker.manager;
+
+import tasktracker.models.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
-    private static int count = 0;
-    private static final HashMap<Integer, Task> tasks = new HashMap<>();
+    private int count = 0;
+    private HashMap<Integer, Task> tasks = new HashMap<>();
 
-    public static void refreshEpicStatus(Epic epic) {
+    //public methods
+    public void refreshEpicStatus(Epic epic) {
         if (epic.getSubtasksId().isEmpty()) {
             epic.setStatus(Status.NEW);
         } else {
@@ -36,7 +39,7 @@ public class TaskManager {
         }
     }
 
-    public static void refreshStatus(Task task) {
+    public void refreshStatus(Task task) {
         if (task.getClass() == Epic.class) {
             refreshEpicStatus((Epic) task);
         } else if (task.getClass() == Subtask.class) {
@@ -46,30 +49,29 @@ public class TaskManager {
         }
     }
 
-    // general methods (by exercise)
-    public static void makeTask(Task task) {
+    public void makeTask(Task task) {
         if (task.getId() == 0) {
             task.setId(++count);
 
             if (task.getClass() == Subtask.class) {
                 Subtask subtask = (Subtask) task;
                 Epic epic = (Epic) getTask(subtask.getEpicId());
-                epic.addSubtask(subtask.getId());
+                epic.getSubtasksId().add(subtask.getId());
             }
         }
         updateTask(task);
     }
 
-    public static void updateTask(Task task) {
+    public void updateTask(Task task) {
         tasks.put(task.getId(), task);
         refreshStatus(task);
     }
 
-    public static Task getTask(int id) {
+    public Task getTask(int id) {
         return tasks.get(id);
     }
 
-    public static void removeTask(int id) {
+    public void removeTask(int id) {
         Task task = getTask(id);
         if (task.getClass() == Epic.class) {
             Epic epic = (Epic) task;
@@ -85,17 +87,16 @@ public class TaskManager {
         tasks.remove(id);
     }
 
-    public static void removeTasks() {
+    public void removeTasks() {
         tasks.clear();
         count = 0;
     }
 
-    public static ArrayList<Task> getTasksList() {
+    public ArrayList<Task> getTasksList() {
         return new ArrayList<>(tasks.values());
     }
 
-    // additional methods (by Exercise)
-    public static ArrayList<Subtask> getWholeSubtasks(Epic epic) {
+    public ArrayList<Subtask> getWholeSubtasks(Epic epic) {
         ArrayList<Subtask> resultFunction = new ArrayList<>();
 
         for (int subtaskId : epic.getSubtasksId()) {
@@ -103,5 +104,22 @@ public class TaskManager {
         }
 
         return resultFunction;
+    }
+
+    //get and set
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public HashMap<Integer, Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(HashMap<Integer, Task> tasks) {
+        this.tasks = tasks;
     }
 }
