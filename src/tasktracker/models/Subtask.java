@@ -1,9 +1,11 @@
-package tasktracker;
+package tasktracker.models;
 
-public class Subtask extends Task{
-    private final int epicId;
+public class Subtask extends Task {
+    private int epicId;
 
     //constructors
+    public Subtask() {
+    }
     public Subtask(int epicId) {
         this.epicId = epicId;
     }
@@ -27,5 +29,8 @@ public class Subtask extends Task{
     //get and set
     public int getEpicId() {
         return epicId;
+    }
+    public void setEpicId(int epicId) {
+        this.epicId = epicId;
     }
 }

@@ -1,112 +1,127 @@
-import tasktracker.*;
+import tasktracker.manager.TaskManager;
+import tasktracker.models.*;
 
 import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        /*Создайте две задачи, а также эпик с двумя подзадачами и эпик с одной подзадачей.*/
-
         int count = 0;
+        TaskManager taskManager = new TaskManager();
 
-        // Task1 ++
+        goingTestTask1(taskManager, count);
+        goingTestTask2(taskManager, count);
+        goingTestEpicWithTwoSubtask(taskManager, count);
+        goingTestEpicWithOneSubtask(taskManager, count);
+        goingTestDeleteAll(taskManager, count);
+    }
+
+    public static void goingTestTask1(TaskManager taskManager, int count) {
+        Task task = new Task("task1", Status.NEW);
+
+        taskManager.makeTask(task);
+        taskManager.makeTask(task); //дважды не создается одна таска, а обновляется
+
         System.out.println("Task1");
-        Task task1 = new Task("task1", Status.NEW);
-        TaskManager.makeTask(task1);
-        TaskManager.makeTask(task1); //дважды не создается одна таска, а обновляется
-        System.out.println("№" + (++count) + " " + task1); //№1 Task{id=1, name='task1', description=null, status=NEW}
+        System.out.println("№" + (++count) + " " + task); //№1 Task{id=1, name='task1', description=null, status=NEW}
         System.out.println();
-        // Task1 --
+    }
 
+    public static void goingTestTask2(TaskManager taskManager, int count) {
+        Task task = new Task("task2", "Задача номер 2", Status.NEW);
 
-        // Task2 ++
+        taskManager.makeTask(task);
+
         System.out.println("Task2");
-        Task task2 = new Task("task2", "Задача номер 2", Status.NEW);
-        TaskManager.makeTask(task2);
-        task2.setStatus(Status.DONE);
-        System.out.println("№" + (++count) + " " + task2); //№2 Task{id=2, name='task2', description.length=14, status=DONE}
+        System.out.println("№" + (++count) + " " + task); //№1 Task{id=2, name='task2', description.length=14, status=NEW}
+
+        task.setStatus(Status.DONE);
+
+        System.out.println("№" + (++count) + " " + task); //№2 Task{id=2, name='task2', description.length=14, status=DONE}
         System.out.println();
-        // Task2 --
+    }
 
-
-        // Epic with two Subtask ++
+    public static void goingTestEpicWithTwoSubtask(TaskManager taskManager, int count) {
         System.out.println("Epic with two Subtask");
 
-        Epic epic1 = new Epic();
-        epic1.setName("epic1");
-        TaskManager.makeTask(epic1);
-        System.out.println("№" + (++count) + " " + epic1); //№3 Epic{id=3, name='epic1', description=null, status=NEW}
+        Epic epic = new Epic();
+        epic.setName("epic1");
 
-        Subtask subtask11 = new Subtask(epic1.getId());
-        TaskManager.makeTask(subtask11);
-        System.out.println("№" + (++count) + " " + subtask11); //№4 Subtask{id=4, name='null', description=null, status=NEW}
+        taskManager.makeTask(epic);
 
-        Subtask subtask21 = new Subtask(epic1.getId());
-        TaskManager.makeTask(subtask21);
-        TaskManager.makeTask(subtask21);
-        System.out.println("№" + (++count) + " " + subtask21); //№5 Subtask{id=5, name='null', description=null, status=NEW}
+        System.out.println("№" + (++count) + " " + epic); //№1 Epic{id=3, name='epic1', description=null, status=NEW}
 
-        subtask11.setStatus(Status.DONE);
-        subtask21.setStatus(Status.IN_PROGRESS);
-        TaskManager.updateTask(epic1); //управление статусами происходит в менеджере (из задания)
-        System.out.println("№" + (++count) + " " + epic1); //№6 Epic{id=3, name='epic1', description=null, status=IN_PROGRESS}
+        Subtask subtask1 = new Subtask(epic.getId());
+        taskManager.makeTask(subtask1);
+        System.out.println("№" + (++count) + " " + subtask1); //№2 Subtask{id=4, name='null', description=null, status=NEW}
 
-        epic1.setStatus(Status.DONE);
-        TaskManager.updateTask(epic1); //Для Epic статус всегда расчитывается (из задания), поэтому статус не изменится
-        System.out.println("№" + (++count) + " " + epic1); //№7 Epic{id=3, name='epic1', description=null, status=IN_PROGRESS}
+        Subtask subtask2 = new Subtask(epic.getId());
+        taskManager.makeTask(subtask2);
+        taskManager.makeTask(subtask2);
+        System.out.println("№" + (++count) + " " + subtask2); //№3 Subtask{id=5, name='null', description=null, status=NEW}
 
-        ArrayList<Subtask> subtasks = TaskManager.getWholeSubtasks(epic1); // получаем список подзадач
+        subtask1.setStatus(Status.DONE);
+        subtask2.setStatus(Status.IN_PROGRESS);
+        taskManager.updateTask(epic); //управление статусами происходит в менеджере (из задания)
+        System.out.println("№" + (++count) + " " + epic); //№4 Epic{id=3, name='epic1', description=null, status=IN_PROGRESS}
+
+        epic.setStatus(Status.DONE);
+        taskManager.updateTask(epic); //Для Epic статус всегда расчитывается (из задания), поэтому статус не изменится
+        System.out.println("№" + (++count) + " " + epic); //№5 Epic{id=3, name='epic1', description=null, status=IN_PROGRESS}
+
+        ArrayList<Subtask> subtasks = taskManager.getWholeSubtasks(epic); // получаем список подзадач
         for (Subtask subtask : subtasks) {
             /*
-            №8 Subtask{id=4, name='null', description=null, status=DONE}
-            №9 Subtask{id=5, name='null', description=null, status=IN_PROGRESS}
+            №6 Subtask{id=4, name='null', description=null, status=DONE}
+            №7 Subtask{id=5, name='null', description=null, status=IN_PROGRESS}
             */
             System.out.println("№" + (++count) + " " + subtask);
         }
 
-        TaskManager.removeTask(5); // Удалим одну подзадачу у epic1
-        subtasks = TaskManager.getWholeSubtasks(epic1); // получаем список подзадач
+        taskManager.removeTask(5); // Удалим одну подзадачу у epic1
+        subtasks = taskManager.getWholeSubtasks(epic); // получаем список подзадач
         for (Subtask subtask : subtasks) {
             /*
-            №10 Subtask{id=5, name='null', description=null, status=IN_PROGRESS}
+            №8 Subtask{id=4, name='null', description=null, status=DONE}
             */
             System.out.println("№" + (++count) + " " + subtask);
         }
         System.out.println();
         // Epic with two Subtask --
+    }
 
-
-        // Epic with one Subtask ++
+    public static void goingTestEpicWithOneSubtask(TaskManager taskManager, int count) {
         System.out.println("Epic with one Subtask");
 
-        Epic epic2 = new Epic();
-        epic2.setName("epic2");
-        TaskManager.makeTask(epic2);
-        System.out.println("№" + (++count) + " " + epic2); //№11 Epic{id=6, name='epic2', description=null, status=NEW}
+        Epic epic = new Epic();
+        epic.setName("epic2");
 
-        Subtask subtask12 = new Subtask(epic2.getId());
-        TaskManager.makeTask(subtask12);
-        System.out.println("№" + (++count) + " " + subtask12); //№12 Subtask{id=7, name='null', description=null, status=NEW}
+        taskManager.makeTask(epic);
 
-        subtask12.setStatus(Status.DONE);
-        TaskManager.updateTask(epic2);
-        System.out.println("№" + (++count) + " " + epic2); //№13 Epic{id=6, name='epic2', description=null, status=DONE}
+        System.out.println("№" + (++count) + " " + epic); //№1 Epic{id=6, name='epic2', description=null, status=NEW}
+
+        Subtask subtask = new Subtask(epic.getId());
+        taskManager.makeTask(subtask);
+        System.out.println("№" + (++count) + " " + subtask); //№2 Subtask{id=7, name='null', description=null, status=NEW}
+
+        subtask.setStatus(Status.DONE);
+        taskManager.updateTask(epic);
+        System.out.println("№" + (++count) + " " + epic); //№3 Epic{id=6, name='epic2', description=null, status=DONE}
         System.out.println();
-        // Epic with one Subtask --
+    }
 
-
-        // Прочие тесты со всеми Task, Epic и Subtask ++
+    public static void goingTestDeleteAll(TaskManager taskManager, int count) {
         System.out.println("Прочие тесты со всеми Task, Epic и Subtask");
-        ArrayList<Task> tasks = TaskManager.getTasksList();
+
+        ArrayList<Task> tasks = taskManager.getTasksList();
         for (Task task : tasks) {
             System.out.println("№" + (++count) + " " + task);
         }
 
-        TaskManager.removeTasks(); // Удаляем все задачи
+        taskManager.removeTasks(); // Удаляем все задачи
 
-        tasks = TaskManager.getTasksList();
+        tasks = taskManager.getTasksList();
         for (Task task : tasks) {
             System.out.println("№" + (++count) + " " + task);
         }
-        // Прочие тесты со всеми Task, Epic и Subtask --
     }
 }
