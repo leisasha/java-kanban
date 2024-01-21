@@ -21,7 +21,10 @@ public class InMemoryTaskManager implements TaskManager {
             if (task.getClass() == Subtask.class) {
                 Subtask subtask = (Subtask) task;
                 Epic epic = (Epic) tasks.get(subtask.getEpicId());
-                epic.getSubtasksId().add(subtask.getId());
+                if (epic != null)
+                    epic.getSubtasksId().add(subtask.getId());
+                else
+                    subtask.setEpicId(0);
             }
         }
         updateTask(task);
@@ -122,7 +125,8 @@ public class InMemoryTaskManager implements TaskManager {
         } else if (task.getClass() == Subtask.class) {
             Subtask subtask = (Subtask) task;
             Epic epic = (Epic) tasks.get(subtask.getEpicId());
-            refreshEpicStatus(epic);
+            if (epic != null)
+                refreshEpicStatus(epic);
         }
     }
 
