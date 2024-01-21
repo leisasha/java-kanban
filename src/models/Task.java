@@ -1,4 +1,4 @@
-package tasktracker.models;
+package models;
 
 import java.util.Objects;
 
