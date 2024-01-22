@@ -6,14 +6,13 @@ import models.Subtask;
 import models.Task;
 import manager.TaskManager;
 import static models.Status.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
     //проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id
-    TaskManager taskManager;
+    private TaskManager taskManager;
 
     @BeforeEach
     public void beforeEach() {

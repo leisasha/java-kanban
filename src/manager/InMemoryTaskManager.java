@@ -2,13 +2,15 @@ package manager;
 
 import models.*;
 
+import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.HashMap;
 
 public class InMemoryTaskManager implements TaskManager {
     private int count = 0;
 
-    private HashMap<Integer, Task> tasks = new HashMap<>();
+    private Map<Integer, Task> tasks = new HashMap<>();
 
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
@@ -69,23 +71,27 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getTasksList() {
+    public List<Task> getTasksList() {
         return new ArrayList<>(tasks.values());
     }
 
     @Override
-    public ArrayList<Subtask> getWholeSubtasks(Epic epic) {
-        ArrayList<Subtask> resultFunction = new ArrayList<>();
+    public List<Subtask> getWholeSubtasks(Epic epic) {
+        List<Subtask> resultFunction = new ArrayList<>();
 
-        for (int subtaskId : epic.getSubtasksId()) {
+        /*for (int subtaskId : epic.getSubtasksId()) {
             resultFunction.add((Subtask) tasks.get(subtaskId));
-        }
+        }*/
+
+        epic.getSubtasksId().stream()
+                .map(subtaskId -> (Subtask) tasks.get(subtaskId))
+                .forEach(x -> resultFunction.add(x));
 
         return resultFunction;
     }
 
     @Override
-    public ArrayList<Task> getHistory() {
+    public List<Task> getHistory() {
         return historyManager.getHistory();
     }
 
@@ -139,11 +145,11 @@ public class InMemoryTaskManager implements TaskManager {
         this.count = count;
     }
 
-    public HashMap<Integer, Task> getTasks() {
+    public Map<Integer, Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(HashMap<Integer, Task> tasks) {
+    public void setTasks(Map<Integer, Task> tasks) {
         this.tasks = tasks;
     }
 }
