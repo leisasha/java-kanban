@@ -1,9 +1,7 @@
 import manager.TaskManager;
 import manager.InMemoryTaskManager;
 import models.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -70,7 +68,7 @@ public class Main {
         inMemoryTaskManager.updateTask(epic); //Для Epic статус всегда расчитывается (из задания), поэтому статус не изменится
         System.out.println("№" + (++count) + " " + epic); //№5 Epic{id=3, name='epic1', description=null, status=IN_PROGRESS}
 
-        ArrayList<Subtask> subtasks = inMemoryTaskManager.getWholeSubtasks(epic); // получаем список подзадач
+        List<Subtask> subtasks = inMemoryTaskManager.getWholeSubtasks(epic); // получаем список подзадач
         for (Subtask subtask : subtasks) {
             /*
             №6 Subtask{id=4, name='null', description=null, status=DONE}
@@ -114,7 +112,7 @@ public class Main {
     public static void goingTestDeleteAll(InMemoryTaskManager inMemoryTaskManager, int count) {
         System.out.println("Прочие тесты со всеми Task, Epic и Subtask");
 
-        ArrayList<Task> tasks = inMemoryTaskManager.getTasksList();
+        List<Task> tasks = inMemoryTaskManager.getTasksList();
         for (Task task : tasks) {
             System.out.println("№" + (++count) + " " + task);
         }

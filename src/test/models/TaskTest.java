@@ -4,13 +4,12 @@ import manager.Managers;
 import models.Task;
 import manager.TaskManager;
 import static models.Status.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
-    TaskManager taskManager;
+    private TaskManager taskManager;
 
     @BeforeEach
     public void beforeEach() {

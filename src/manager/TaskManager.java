@@ -4,8 +4,7 @@ import models.Epic;
 import models.Subtask;
 import models.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 public interface TaskManager {
     void makeTask(Task task);
@@ -18,9 +17,9 @@ public interface TaskManager {
 
     void removeTasks();
 
-    ArrayList<Task> getTasksList();
+    List<Task> getTasksList();
 
-    ArrayList<Subtask> getWholeSubtasks(Epic epic);
+    List<Subtask> getWholeSubtasks(Epic epic);
 
-    ArrayList<Task> getHistory();
+    List<Task> getHistory();
 }

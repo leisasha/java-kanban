@@ -1,9 +1,10 @@
 package models;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    private ArrayList<Integer> subtasksId = new ArrayList<>();
+    private List<Integer> subtasksId = new ArrayList<>();
 
     //constructors
     public Epic() {
@@ -21,10 +22,10 @@ public class Epic extends Task {
     }
 
     //get and set
-    public ArrayList<Integer> getSubtasksId() {
+    public List<Integer> getSubtasksId() {
         return subtasksId;
     }
-    public void setSubtasksId(ArrayList<Integer> subtasksId) {
+    public void setSubtasksId(List<Integer> subtasksId) {
         this.subtasksId = subtasksId;
     }
 }

@@ -10,7 +10,7 @@ import static models.Status.NEW;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EpicTest {
-    TaskManager taskManager;
+    private TaskManager taskManager;
 
     @BeforeEach
     public void beforeEach() {
