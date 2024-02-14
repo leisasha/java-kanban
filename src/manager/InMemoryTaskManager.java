@@ -62,10 +62,12 @@ public class InMemoryTaskManager implements TaskManager {
             refreshEpicStatus(epic);
         }
         tasks.remove(id);
+        historyManager.remove(id);
     }
 
     @Override
     public void removeTasks() {
+        tasks.keySet().forEach(historyManager::remove);
         tasks.clear();
         count = 0;
     }
@@ -78,10 +80,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Subtask> getWholeSubtasks(Epic epic) {
         List<Subtask> resultFunction = new ArrayList<>();
-
-        /*for (int subtaskId : epic.getSubtasksId()) {
-            resultFunction.add((Subtask) tasks.get(subtaskId));
-        }*/
 
         epic.getSubtasksId().stream()
                 .map(subtaskId -> (Subtask) tasks.get(subtaskId))
