@@ -5,12 +5,12 @@ import models.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager{
     private Node<Task> head;
     private Node<Task> tail;
-    private final HashMap<Integer, Node<Task>> historyTaskList = new HashMap<>();
+    private final Map<Integer, Node<Task>> historyTaskList = new HashMap<>();
 
     public void add(Task task) {
         if (historyTaskList.containsKey(task.getId())) {
