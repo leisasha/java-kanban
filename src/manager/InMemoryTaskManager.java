@@ -2,10 +2,7 @@ package manager;
 
 import models.*;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private int count = 0;
@@ -42,7 +39,8 @@ public class InMemoryTaskManager implements TaskManager {
     public Task getTask(int id) {
         Task resultFunction = tasks.get(id);
 
-        historyManager.add(resultFunction);
+        if (resultFunction != null)
+            historyManager.add(resultFunction);
 
         return resultFunction;
     }
@@ -54,6 +52,7 @@ public class InMemoryTaskManager implements TaskManager {
             Epic epic = (Epic) task;
             for (int subtaskId : epic.getSubtasksId()) {
                 tasks.remove(subtaskId);
+                historyManager.remove(subtaskId);
             }
         } else if (task.getClass() == Subtask.class) {
             Subtask subtask = (Subtask) task;
@@ -62,10 +61,12 @@ public class InMemoryTaskManager implements TaskManager {
             refreshEpicStatus(epic);
         }
         tasks.remove(id);
+        historyManager.remove(id);
     }
 
     @Override
     public void removeTasks() {
+        tasks.keySet().forEach(historyManager::remove);
         tasks.clear();
         count = 0;
     }
@@ -79,12 +80,9 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Subtask> getWholeSubtasks(Epic epic) {
         List<Subtask> resultFunction = new ArrayList<>();
 
-        /*for (int subtaskId : epic.getSubtasksId()) {
-            resultFunction.add((Subtask) tasks.get(subtaskId));
-        }*/
-
         epic.getSubtasksId().stream()
                 .map(subtaskId -> (Subtask) tasks.get(subtaskId))
+                .filter(Objects::nonNull)
                 .forEach(x -> resultFunction.add(x));
 
         return resultFunction;
