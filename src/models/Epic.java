@@ -9,6 +9,7 @@ public class Epic extends Task {
     //constructors
     public Epic() {
     }
+
     public Epic(String name) {
         super(name);
     }
@@ -25,6 +26,7 @@ public class Epic extends Task {
     public List<Integer> getSubtasksId() {
         return subtasksId;
     }
+
     public void setSubtasksId(List<Integer> subtasksId) {
         this.subtasksId = subtasksId;
     }

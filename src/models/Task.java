@@ -11,17 +11,21 @@ public class Task {
     //constructors
     public Task() {
     }
+
     public Task(String name) {
         this.name = name;
     }
+
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
     }
+
     public Task(String name, Status status) {
         this.name = name;
         this.status = status;
     }
+
     public Task(String name, String description, Status status) {
         this.name = name;
         this.description = description;
@@ -32,6 +36,7 @@ public class Task {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -39,6 +44,7 @@ public class Task {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -46,6 +52,7 @@ public class Task {
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -53,6 +60,7 @@ public class Task {
     public Status getStatus() {
         return status;
     }
+
     public void setStatus(Status status) {
         this.status = status;
     }
@@ -74,7 +82,7 @@ public class Task {
     @Override
     public String toString() {
         String descriptionPerformance;
-        if(description != null) {
+        if (description != null) {
             descriptionPerformance = ", description.length=" + Integer.toString(description.length());
         } else {
             descriptionPerformance = ", description=null";

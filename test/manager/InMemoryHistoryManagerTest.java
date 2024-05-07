@@ -1,7 +1,5 @@
-package test.manager;
+package manager;
 
-import manager.HistoryManager;
-import manager.Managers;
 import models.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

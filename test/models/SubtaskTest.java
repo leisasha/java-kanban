@@ -1,8 +1,7 @@
-package test.models;
+package models;
 
 import manager.Managers;
 import manager.TaskManager;
-import models.Subtask;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

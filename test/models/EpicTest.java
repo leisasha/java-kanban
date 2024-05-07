@@ -1,14 +1,14 @@
-package test.models;
+package models;
 
 import manager.Managers;
-import models.Task;
 import manager.TaskManager;
-import static models.Status.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static models.Status.NEW;
 import static org.junit.jupiter.api.Assertions.*;
 
-class TaskTest {
+class EpicTest {
     private TaskManager taskManager;
 
     @BeforeEach
@@ -17,12 +17,12 @@ class TaskTest {
     }
 
     @Test
-    public void shouldBeEqualsTask1AndTask2WithSameId(){
-        //проверьте, что экземпляры класса Task равны друг другу, если равен их id
-        Task task1 = new Task("Test addNewTask", "Test addNewTask description", NEW);
+    public void shouldBeEqualsEpic1AndEpic2WithSameId(){
+        //проверьте, что наследники класса Task равны друг другу, если равен их id
+        Epic task1 = new Epic("Task1", "Test Task1 description", NEW);
         taskManager.makeTask(task1);
 
-        Task task2 = new Task("Test addNewTask", "Test addNewTask description", NEW);
+        Epic task2 = new Epic("Task2", "Test Task2 description", NEW);
         task2.setId(1);
 
         assertEquals(task1, task2, "Задачи не совпадают.");
