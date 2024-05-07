@@ -5,7 +5,7 @@ import models.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryHistoryManager implements HistoryManager{
+public class InMemoryHistoryManager implements HistoryManager {
     private final int MAX_SIZE_LIST = 10;
     private final int OLDEST_TASK = 0;
     private final List<Task> historyTaskList = new ArrayList<>();
