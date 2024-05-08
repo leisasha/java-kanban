@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ManagersTest {
     @Test
-    public void shouldBeCreateTaskManager(){
-        //убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры
+    public void shouldBeCreateTaskManager() {
         TaskManager taskManager = Managers.getDefault();
 
         assertNotNull(taskManager);
@@ -16,8 +15,7 @@ class ManagersTest {
     }
 
     @Test
-    public void shouldBeCreateHistoryManager(){
-        //убедитесь, что утилитарный класс всегда возвращает проинициализированные и готовые к работе экземпляры
+    public void shouldBeCreateHistoryManager() {
         HistoryManager historyManager = Managers.getDefaultHistory();
 
         assertNotNull(historyManager);

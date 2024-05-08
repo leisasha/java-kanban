@@ -46,14 +46,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         try (Reader fileReader = new FileReader(file, StandardCharsets.UTF_8);
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-            bufferedReader.readLine(); // пропускаем заголовок в файле, если файл пуст ошибки не возникает
+            bufferedReader.readLine();
             while (bufferedReader.ready()) {
                 final String line = bufferedReader.readLine();
                 final Task task = taskfromString(line);
                 if (task != null && task.getId() != 0) {
-                    manager.getTasks().put(task.getId(), task); // записываем все таски(таски,сабтаски,эпики)
+                    manager.getTasks().put(task.getId(), task);
                     if (manager.getCount() < task.getId()) {
-                        manager.setCount(task.getId()); // записываем максимальный id в переменную менеджера
+                        manager.setCount(task.getId());
                     }
                 }
             }
@@ -63,10 +63,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         for (Task task : manager.getTasksList()) {
             if (task.getClass() == Subtask.class) {
-                final Subtask subtask = (Subtask) task; // получаем сабтаску
-                final Epic epic = (Epic) manager.getTask(subtask.getEpicId()); // получаем Эпик по id из сабтаски
+                final Subtask subtask = (Subtask) task;
+                final Epic epic = (Epic) manager.getTask(subtask.getEpicId());
                 List<Integer> subtasksId = epic.getSubtasksId();
-                subtasksId.add(subtask.getId()); // добавляем в лист эпика id сабтаски
+                subtasksId.add(subtask.getId());
             }
         }
 
@@ -88,7 +88,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
 
         Task task;
-        final String[] piecesOfLine = value.split(","); //id,type,name,status,description,epic
+        final String[] piecesOfLine = value.split(",");
 
         final int id = Integer.parseInt(piecesOfLine[0].trim());
         final String name = piecesOfLine[2];
@@ -132,7 +132,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             epic = Integer.toString(((Subtask) task).getEpicId());
         }
 
-        //id,type,name,status,description,epic
         return task.getId() + "," +
                 taskTypes + "," +
                 task.getName() + "," +

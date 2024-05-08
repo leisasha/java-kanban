@@ -17,8 +17,7 @@ class EpicTest {
     }
 
     @Test
-    public void shouldBeEqualsEpic1AndEpic2WithSameId(){
-        //проверьте, что наследники класса Task равны друг другу, если равен их id
+    public void shouldBeEqualsEpic1AndEpic2WithSameId() {
         Epic task1 = new Epic("Task1", "Test Task1 description", NEW);
         taskManager.makeTask(task1);
 

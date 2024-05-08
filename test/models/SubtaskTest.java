@@ -4,6 +4,7 @@ import manager.Managers;
 import manager.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SubtaskTest {
@@ -15,8 +16,7 @@ class SubtaskTest {
     }
 
     @Test
-    public void shouldBeNegativeWhenSubtaskSetEpicYourself(){
-        //проверьте, что объект Subtask нельзя сделать своим же эпиком
+    public void shouldBeNegativeWhenSubtaskSetEpicYourself() {
         Subtask subtask = new Subtask("Subtask", "Test Subtask description", 10);
         taskManager.makeTask(subtask);
 

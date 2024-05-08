@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class Epic extends Task {
     private List<Integer> subtasksId = new ArrayList<>();
 
-    //constructors
     public Epic() {
     }
 
@@ -22,7 +21,6 @@ public class Epic extends Task {
         super(name, description, status);
     }
 
-    //get and set
     public List<Integer> getSubtasksId() {
         return subtasksId;
     }

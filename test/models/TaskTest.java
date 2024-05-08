@@ -2,9 +2,12 @@ package models;
 
 import manager.Managers;
 import manager.TaskManager;
+
 import static models.Status.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
@@ -16,8 +19,7 @@ class TaskTest {
     }
 
     @Test
-    public void shouldBeEqualsTask1AndTask2WithSameId(){
-        //проверьте, что экземпляры класса Task равны друг другу, если равен их id
+    public void shouldBeEqualsTask1AndTask2WithSameId() {
         Task task1 = new Task("Test addNewTask", "Test addNewTask description", NEW);
         taskManager.makeTask(task1);
 

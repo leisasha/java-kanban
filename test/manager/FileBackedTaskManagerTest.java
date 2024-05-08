@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackedTaskManagerTest {
@@ -30,13 +31,13 @@ class FileBackedTaskManagerTest {
     }
 
     @Test
-    public void loadEmptyFileShouldReturnEmptyManager(){
+    public void loadEmptyFileShouldReturnEmptyManager() {
         loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
         assertEquals(loadedManager.getTasksList().size(), 0);
     }
 
     @Test
-    public void saveEmptyManagerToFileShouldBeEmptyFile(){
+    public void saveEmptyManagerToFileShouldBeEmptyFile() {
         manager = new FileBackedTaskManager(tempFile);
         manager.save();
         loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
@@ -82,7 +83,6 @@ class FileBackedTaskManagerTest {
         loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
         assertEquals(manager.getTasksList().size(), loadedManager.getTasksList().size());
 
-        // Проверка соответствия загруженных задач созданным
         List<Task> originalTasks = new ArrayList<>(manager.getTasksList());
         List<Task> loadedTasks = new ArrayList<>(loadedManager.getTasksList());
         for (int i = 0; i < originalTasks.size(); i++) {

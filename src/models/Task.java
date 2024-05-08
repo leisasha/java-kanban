@@ -8,7 +8,6 @@ public class Task {
     private String description;
     private Status status = Status.NEW;
 
-    //constructors
     public Task() {
     }
 
@@ -32,7 +31,6 @@ public class Task {
         this.status = status;
     }
 
-    //get and set
     public int getId() {
         return id;
     }
@@ -65,7 +63,6 @@ public class Task {
         this.status = status;
     }
 
-    //override
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

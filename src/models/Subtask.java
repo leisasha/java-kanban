@@ -3,7 +3,6 @@ package models;
 public class Subtask extends Task {
     private int epicId;
 
-    //constructors
     public Subtask() {
     }
 
@@ -31,7 +30,6 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
-    //get and set
     public int getEpicId() {
         return epicId;
     }
