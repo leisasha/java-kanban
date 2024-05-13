@@ -1,15 +1,14 @@
-package test.manager;
+package manager;
 
-import manager.HistoryManager;
-import manager.Managers;
 import models.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
-    //убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных
     private HistoryManager historyManager;
 
     @BeforeEach
@@ -18,7 +17,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    public void shouldHistoryManager(){
+    public void shouldHistoryManager() {
         Task task = new Task();
         historyManager.add(task);
 

@@ -1,17 +1,17 @@
-package test.manager;
+package manager;
 
-import manager.Managers;
 import models.Epic;
 import models.Subtask;
 import models.Task;
-import manager.TaskManager;
+
 import static models.Status.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
-    //проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id
     private TaskManager taskManager;
 
     @BeforeEach
@@ -20,7 +20,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void shouldWillAddTaskAndReturnId(){
+    public void shouldWillAddTaskAndReturnId() {
         Task task = new Task("Task", "Task description", NEW);
         taskManager.makeTask(task);
 
@@ -31,7 +31,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void shouldWillAddEpicAndReturnId(){
+    public void shouldWillAddEpicAndReturnId() {
         Epic epic = new Epic("Epic", "Epic description", NEW);
         taskManager.makeTask(epic);
 
@@ -42,7 +42,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void shouldWillAddSubtaskAndReturnId(){
+    public void shouldWillAddSubtaskAndReturnId() {
         Epic epic = new Epic("Epic", "Epic description", NEW);
         taskManager.makeTask(epic);
 

@@ -5,14 +5,14 @@ import models.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryHistoryManager implements HistoryManager{
-    private final int MAX_SIZE_LIST = 10;
-    private final int OLDEST_TASK = 0;
+public class InMemoryHistoryManager implements HistoryManager {
+    private final int maxSizeList = 10;
+    private final int oldestTask = 0;
     private final List<Task> historyTaskList = new ArrayList<>();
 
     public void add(Task task) {
-        if (historyTaskList.size() >= MAX_SIZE_LIST) {
-            historyTaskList.remove(OLDEST_TASK);
+        if (historyTaskList.size() >= maxSizeList) {
+            historyTaskList.remove(oldestTask);
         }
 
         historyTaskList.add(task);

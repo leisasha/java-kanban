@@ -14,7 +14,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    //public methods
     @Override
     public void makeTask(Task task) {
         if (task.getId() == 0) {
@@ -79,10 +78,6 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Subtask> getWholeSubtasks(Epic epic) {
         List<Subtask> resultFunction = new ArrayList<>();
 
-        /*for (int subtaskId : epic.getSubtasksId()) {
-            resultFunction.add((Subtask) tasks.get(subtaskId));
-        }*/
-
         epic.getSubtasksId().stream()
                 .map(subtaskId -> (Subtask) tasks.get(subtaskId))
                 .forEach(x -> resultFunction.add(x));
@@ -95,7 +90,6 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-    //private methods
     private void refreshEpicStatus(Epic epic) {
         if (epic.getSubtasksId().isEmpty()) {
             epic.setStatus(Status.NEW);
@@ -136,7 +130,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    //get and set
     public int getCount() {
         return count;
     }
