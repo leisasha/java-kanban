@@ -1,10 +1,12 @@
 package models;
 
-import java.util.List;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Epic extends Task {
     private List<Integer> subtasksId = new ArrayList<>();
+    private ZonedDateTime endTime;
 
     public Epic() {
     }
@@ -27,5 +29,14 @@ public class Epic extends Task {
 
     public void setSubtasksId(List<Integer> subtasksId) {
         this.subtasksId = subtasksId;
+    }
+
+    @Override
+    public ZonedDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(ZonedDateTime endTime) {
+        this.endTime = endTime;
     }
 }

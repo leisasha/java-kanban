@@ -2,13 +2,11 @@ package models;
 
 import manager.Managers;
 import manager.TaskManager;
-
-import static models.Status.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static models.Status.NEW;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TaskTest {
     private TaskManager taskManager;

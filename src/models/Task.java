@@ -1,12 +1,17 @@
 package models;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Task {
     private int id;
     private String name;
     private String description;
     private Status status = Status.NEW;
+    private Duration duration;
+    private ZonedDateTime startTime;
 
     public Task() {
     }
@@ -61,6 +66,34 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public ZonedDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(ZonedDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public ZonedDateTime getEndTime() {
+        if (Optional.ofNullable(startTime).isPresent()) {
+            if (Optional.ofNullable(duration).isPresent()) {
+                return startTime.plus(duration);
+            } else {
+                return ZonedDateTime.of(startTime.toLocalDateTime(), startTime.getZone());
+            }
+        } else {
+            return null;
+        }
     }
 
     @Override

@@ -1,57 +1,58 @@
 package manager;
 
-import models.Epic;
-import models.Subtask;
+import exceptions.ManagerValidationException;
 import models.Task;
-
-import static models.Status.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
+
+import static models.Status.NEW;
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest {
-    private TaskManager taskManager;
-
+class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @BeforeEach
     public void beforeEach() {
-        taskManager = Managers.getDefault();
+        super.manager = (InMemoryTaskManager) Managers.getDefault();
     }
 
     @Test
-    public void shouldWillAddTaskAndReturnId() {
-        Task task = new Task("Task", "Task description", NEW);
-        taskManager.makeTask(task);
+    public void intervalsOverlap() {
+        ZonedDateTime start1 = ZonedDateTime.now();
+        ZonedDateTime end1 = start1.plusHours(1);
+        ZonedDateTime start2 = ZonedDateTime.now();
+        ZonedDateTime end2 = start2.plusHours(1);
 
-        final Task savedTask = taskManager.getTask(task.getId());
+        Task task1 = new Task("Task1", "description", NEW);
+        task1.setStartTime(start1);
+        task1.setDuration(Duration.between(start1, end1));
+        manager.makeTask(task1);
 
-        assertNotNull(savedTask, "Задача не найдена.");
-        assertEquals(task, savedTask, "Задачи не совпадают.");
+        Task task2 = new Task("Task2", "description", NEW);
+        task2.setStartTime(start2);
+        task2.setDuration(Duration.between(start2, end2));
+        ManagerValidationException thrown = assertThrows(ManagerValidationException.class,
+                () -> manager.makeTask(task2));
+
+        assertEquals("Ошибка. Задачи пересекаются по времени выполнения: " + task2, thrown.getMessage());
     }
 
     @Test
-    public void shouldWillAddEpicAndReturnId() {
-        Epic epic = new Epic("Epic", "Epic description", NEW);
-        taskManager.makeTask(epic);
+    public void intervalsNotOverlap() {
+        ZonedDateTime start1 = ZonedDateTime.now();
+        ZonedDateTime end1 = start1.plusHours(1);
+        ZonedDateTime start2 = ZonedDateTime.now().plusDays(1);
+        ZonedDateTime end2 = start2.plusHours(1);
 
-        final Task savedTask = taskManager.getTask(epic.getId());
+        Task task1 = new Task("Task1", "description", NEW);
+        task1.setStartTime(start1);
+        task1.setDuration(Duration.between(start1, end1));
+        manager.makeTask(task1);
 
-        assertNotNull(savedTask, "Задача не найдена.");
-        assertEquals(epic, savedTask, "Задачи не совпадают.");
-    }
-
-    @Test
-    public void shouldWillAddSubtaskAndReturnId() {
-        Epic epic = new Epic("Epic", "Epic description", NEW);
-        taskManager.makeTask(epic);
-
-        Subtask subtask = new Subtask("Subtask", "Subtask description", NEW, epic.getId());
-        taskManager.makeTask(subtask);
-
-        final Task savedTask = taskManager.getTask(subtask.getId());
-
-        assertNotNull(subtask, "Задача не найдена.");
-        assertEquals(subtask, savedTask, "Задачи не совпадают.");
+        Task task2 = new Task("Task2", "description", NEW);
+        task2.setStartTime(start2);
+        task2.setDuration(Duration.between(start2, end2));
+        assertDoesNotThrow(() -> manager.makeTask(task2));
     }
 }
