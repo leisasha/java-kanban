@@ -1,0 +1,124 @@
+package http.handlers;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import http.taskServer.HttpTaskServer;
+import manager.InMemoryTaskManager;
+import manager.TaskManager;
+import models.Epic;
+import models.Subtask;
+import models.adapters.DurationAdapter;
+import models.adapters.ZonedDateTimeAdapter;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.time.ZonedDateTime;
+
+import static models.Status.NEW;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+public class SubtasksHandlerTest {
+    TaskManager manager = new InMemoryTaskManager();
+    HttpTaskServer taskServer = new HttpTaskServer(manager);
+    HttpClient client = HttpClient.newHttpClient();
+    Gson gson = new GsonBuilder()
+            .setPrettyPrinting()
+            .registerTypeAdapter(Duration.class, new DurationAdapter())
+            .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter())
+            .create();
+
+    @BeforeEach
+    public void setUp() {
+        manager.removeTasks();
+        try {
+            taskServer.startServer();
+        } catch (IOException e) {
+            fail("Test failed: " + e.getMessage());
+        }
+    }
+
+    @AfterEach
+    public void shutDown() {
+        taskServer.stopServer();
+    }
+
+    @Test
+    public void makeSubtaskShouldAddWith201() throws IOException, InterruptedException {
+        URI urlPostEpic = URI.create("http://localhost:8080/epics");
+        URI urlPostSubtask = URI.create("http://localhost:8080/subtasks");
+        HttpRequest request;
+        HttpResponse<String> response;
+
+        Epic epic = new Epic("Epic1", "description", NEW);
+        request = HttpRequest.newBuilder()
+                .uri(urlPostEpic)
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(epic)))
+                .build();
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(201, response.statusCode());
+
+        Subtask subtask1 = new Subtask("Subtask1", "description", NEW, 1);
+        request = HttpRequest.newBuilder()
+                .uri(urlPostSubtask)
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(subtask1)))
+                .build();
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(201, response.statusCode());
+
+        Subtask subtask2 = new Subtask("Subtask2", "description", NEW, 1);
+        request = HttpRequest.newBuilder()
+                .uri(urlPostSubtask)
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(subtask2)))
+                .build();
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(201, response.statusCode());
+    }
+
+    @Test
+    public void getSubtaskShouldReturn400() throws IOException, InterruptedException {
+        URI urlPostEpic = URI.create("http://localhost:8080/epics");
+        URI urlPostSubtask = URI.create("http://localhost:8080/subtasks");
+        HttpRequest request;
+        HttpResponse<String> response;
+
+        Epic epic = new Epic("Epic1", "description", NEW);
+        request = HttpRequest.newBuilder()
+                .uri(urlPostEpic)
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(epic)))
+                .build();
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(201, response.statusCode());
+
+        Subtask subtask1 = new Subtask("Subtask1", "description", NEW, 1);
+        request = HttpRequest.newBuilder()
+                .uri(urlPostSubtask)
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(subtask1)))
+                .build();
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(201, response.statusCode());
+
+        Subtask subtask2 = new Subtask("Subtask2", "description", NEW, 1);
+        request = HttpRequest.newBuilder()
+                .uri(urlPostSubtask)
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(subtask2)))
+                .build();
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(201, response.statusCode());
+
+        URI urlGet = URI.create("http://localhost:8080/epics/qwerty");
+        request = HttpRequest.newBuilder()
+                .uri(urlGet)
+                .GET()
+                .build();
+        response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(400, response.statusCode());
+    }
+}
