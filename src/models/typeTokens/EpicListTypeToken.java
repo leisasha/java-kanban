@@ -5,4 +5,5 @@ import models.Epic;
 
 import java.util.List;
 
-public class EpicListTypeToken extends TypeToken<List<Epic>> { }
+public class EpicListTypeToken extends TypeToken<List<Epic>> {
+}
