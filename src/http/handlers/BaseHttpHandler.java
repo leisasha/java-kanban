@@ -58,6 +58,9 @@ public abstract class BaseHttpHandler<T extends Task> {
                 if (pathParts.length == 3)
                     return Endpoint.DELETE;
             }
+            default -> {
+                return Endpoint.UNKNOWN;
+            }
         }
 
         return Endpoint.UNKNOWN;
