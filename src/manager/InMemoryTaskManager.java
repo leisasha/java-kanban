@@ -1,6 +1,7 @@
 package manager;
 
 import exceptions.ManagerValidationException;
+import exceptions.NotFoundException;
 import models.Epic;
 import models.Status;
 import models.Subtask;
@@ -44,10 +45,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task getTask(int id) {
+    public Task getTask(int id) throws NotFoundException {
         Task resultFunction = tasks.get(id);
 
-        historyManager.add(resultFunction);
+        if (resultFunction != null)
+            historyManager.add(resultFunction);
+        else
+            throw new NotFoundException("Ошибка получения задачи: Пустая ссылка");
 
         return resultFunction;
     }
@@ -91,6 +95,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
+    }
+
+    @Override
+    public List<Task> getPrioritizedTasks() {
+        return new ArrayList<>(prioritizedTasks);
     }
 
 
@@ -213,9 +222,5 @@ public class InMemoryTaskManager implements TaskManager {
 
     public void setTasks(Map<Integer, Task> tasks) {
         this.tasks = tasks;
-    }
-
-    public List<Task> getPrioritizedTasks() {
-        return new ArrayList<>(prioritizedTasks);
     }
 }
