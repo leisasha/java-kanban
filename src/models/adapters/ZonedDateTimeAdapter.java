@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ZonedDateTimeAdapter extends TypeAdapter<ZonedDateTime> {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
     @Override
     public void write(final JsonWriter out, final ZonedDateTime value) throws IOException {
@@ -23,6 +23,14 @@ public class ZonedDateTimeAdapter extends TypeAdapter<ZonedDateTime> {
     @Override
     public ZonedDateTime read(final JsonReader in) throws IOException {
         return ZonedDateTime.parse(in.nextString(), formatter);
+    }
+
+    public DateTimeFormatter getFormatter() {
+        return formatter;
+    }
+
+    public void setFormatter(DateTimeFormatter formatter) {
+        this.formatter = formatter;
     }
 }
 
