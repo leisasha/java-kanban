@@ -26,10 +26,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class SubtasksHandlerTest {
-    TaskManager manager = new InMemoryTaskManager();
-    HttpTaskServer taskServer = new HttpTaskServer(manager);
-    HttpClient client = HttpClient.newHttpClient();
-    Gson gson = new GsonBuilder()
+    private final TaskManager manager = new InMemoryTaskManager();
+    private final HttpTaskServer taskServer = new HttpTaskServer(manager);
+    private final HttpClient client = HttpClient.newHttpClient();
+    private final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(Duration.class, new DurationAdapter())
             .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter())
@@ -120,5 +120,21 @@ public class SubtasksHandlerTest {
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(400, response.statusCode());
+    }
+
+    public TaskManager getManager() {
+        return manager;
+    }
+
+    public HttpTaskServer getTaskServer() {
+        return taskServer;
+    }
+
+    public HttpClient getClient() {
+        return client;
+    }
+
+    public Gson getGson() {
+        return gson;
     }
 }
