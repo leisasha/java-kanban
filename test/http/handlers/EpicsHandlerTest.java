@@ -29,10 +29,10 @@ import static models.Status.NEW;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EpicsHandlerTest {
-    TaskManager manager = new InMemoryTaskManager();
-    HttpTaskServer taskServer = new HttpTaskServer(manager);
-    HttpClient client = HttpClient.newHttpClient();
-    Gson gson = new GsonBuilder()
+    private final TaskManager manager = new InMemoryTaskManager();
+    private final HttpTaskServer taskServer = new HttpTaskServer(manager);
+    private final HttpClient client = HttpClient.newHttpClient();
+    private final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(Duration.class, new DurationAdapter())
             .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter())
